@@ -1,5 +1,6 @@
 import React, { ButtonHTMLAttributes } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
+
 export interface FilterCheckBoxProps {
   text: string;
   value: string;

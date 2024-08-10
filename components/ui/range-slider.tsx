@@ -65,7 +65,7 @@ const RangeSlider = React.forwardRef(
             <div
               className="absolute text-center"
               style={{
-                left: `calc(${((value - min) / (max - min)) * 100}% + 0px)`,
+                left: `calc(${((value - min) / (max - min)) * 87}% )`,
                 top: `10px`,
               }}
             >
@@ -73,7 +73,7 @@ const RangeSlider = React.forwardRef(
                 {formatLabel ? formatLabel(value) : value}
               </span>
             </div>
-            <SliderPrimitive.Thumb className="block h-4 w-4 rounded-full border border-primary/50 bg-white shadow transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
+            <SliderPrimitive.Thumb className="block h-4 w-4 rounded-full border border-primary/50 bg-white shadow transition-colors hover:cursor-pointer hover:border-transparent hover:bg-black focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50" />
           </React.Fragment>
         ))}
       </SliderPrimitive.Root>
