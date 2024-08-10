@@ -8,7 +8,7 @@ type Item = FilterCheckBoxProps;
 interface Props {
   title: string;
   items: Item[];
-  defaultItems?: Item[];
+  defaultItems: Item[];
   defaultValue?: string[];
   limit?: number;
   searchInputPlaceholder?: string;
@@ -28,6 +28,8 @@ const CheckboxFiltersGroup: React.FC<Props> = ({
 }) => {
   const [showAll, setShowAll] = React.useState(false);
 
+  const list = showAll ? items : defaultItems.slice(0, limit);
+
   return (
     <div className={className}>
       <p className="mb-3 font-bold">{title}</p>
@@ -40,8 +42,8 @@ const CheckboxFiltersGroup: React.FC<Props> = ({
           />
         </div>
       )}
-      <div className="scrollbar scrollbar-thin flex max-h-96 flex-col gap-4 overflow-auto pr-2">
-        {items.map((item, idx) => (
+      <div className="scrollbar-thin flex max-h-36 flex-col gap-4 overflow-auto pr-2">
+        {list.map((item, idx) => (
           <FilterCheckBox
             key={idx}
             text={item.text}
@@ -52,6 +54,13 @@ const CheckboxFiltersGroup: React.FC<Props> = ({
           />
         ))}
       </div>
+      {items.length > limit && (
+        <div className={showAll ? "mt-2 pt-2 text-center" : "mt-2 text-center"}>
+          <button className="p-2" onClick={() => setShowAll(!showAll)}>
+            {showAll ? "Hide" : "+ Show All"}
+          </button>
+        </div>
+      )}
     </div>
   );
 };
