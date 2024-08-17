@@ -6,7 +6,7 @@ type Props = {
 };
 
 export const Categories: React.FC<Props> = ({ className }) => {
-  const categories = ["Все", "Суши", "Сеты", "Роллы", "Напитки", "Десерты"];
+  const categories = ["Суши", "Роллы", "Сеты", "Напитки", "Десерты"];
   const activeIdx = 0;
 
   return (

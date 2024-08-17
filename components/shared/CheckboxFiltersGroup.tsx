@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import FilterCheckBox, { FilterCheckBoxProps } from "./FilterCheckBox";
 import { Input } from "../ui/input";
 
@@ -27,8 +27,13 @@ const CheckboxFiltersGroup: React.FC<Props> = ({
   className,
 }) => {
   const [showAll, setShowAll] = React.useState(false);
+  const [search, setSearch] = useState("");
 
-  const list = showAll ? items : defaultItems.slice(0, limit);
+  const list = showAll
+    ? items.filter((item) =>
+        item.text.toLowerCase().includes(search.toLowerCase()),
+      )
+    : defaultItems.slice(0, limit);
 
   return (
     <div className={className}>
@@ -37,12 +42,13 @@ const CheckboxFiltersGroup: React.FC<Props> = ({
       {showAll && (
         <div className="mb-5">
           <Input
+            onChange={(e) => setSearch(e.target.value)}
             placeholder={searchInputPlaceholder}
             className="border-none bg-gray-50 placeholder:text-black/40"
           />
         </div>
       )}
-      <div className="scrollbar-thin flex max-h-36 flex-col gap-4 overflow-auto pr-2">
+      <div className="flex max-h-36 flex-col gap-4 overflow-auto pr-2 scrollbar-thin">
         {list.map((item, idx) => (
           <FilterCheckBox
             key={idx}
