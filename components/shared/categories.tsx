@@ -1,4 +1,6 @@
+"use client";
 import { cn } from "@/lib/utils";
+import { useCategoryState } from "@/store/category";
 import React from "react";
 
 type Props = {
@@ -6,8 +8,15 @@ type Props = {
 };
 
 export const Categories: React.FC<Props> = ({ className }) => {
-  const categories = ["Суши", "Роллы", "Сеты", "Напитки", "Десерты"];
-  const activeIdx = 0;
+  const categories = [
+    { id: 1, title: "Суши" },
+    { id: 2, title: "Роллы" },
+    { id: 3, title: "Сеты" },
+    { id: 4, title: "Напитки" },
+    { id: 5, title: "Десерты" },
+  ];
+
+  const categoryActiveId = useCategoryState((state) => state.activeId);
 
   return (
     <div className="flex items-center justify-between">
@@ -17,18 +26,18 @@ export const Categories: React.FC<Props> = ({ className }) => {
           className,
         )}
       >
-        {categories.map((category, idx) => {
+        {categories.map(({ title, id }, idx) => {
           return (
             <a
-              href={"#" + category}
+              href={`#${title}`}
               key={idx}
               className={cn(
                 "flex h-11 items-center rounded-2xl px-5 font-bold text-zinc-500 transition hover:text-zinc-800",
-                activeIdx === idx &&
+                categoryActiveId === id &&
                   "shadow-grey/30 bg-white text-zinc-900 shadow-md",
               )}
             >
-              <button>{category}</button>
+              <button>{title}</button>
             </a>
           );
         })}

@@ -21,7 +21,7 @@ export default function Home() {
           <div className="flex-1">
             <div className="flex flex-col gap-16">
               <ProductsGroup
-                categoryId={0}
+                categoryId={1}
                 products={[
                   {
                     id: 1,
@@ -93,7 +93,7 @@ export default function Home() {
                 title="Суши"
               />
               <ProductsGroup
-                categoryId={0}
+                categoryId={2}
                 products={[
                   {
                     id: 1,
@@ -165,7 +165,7 @@ export default function Home() {
                 title="Роллы"
               />
               <ProductsGroup
-                categoryId={0}
+                categoryId={3}
                 products={[
                   {
                     id: 1,
