@@ -9,7 +9,7 @@ import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 export const db = drizzle(sql);
 // Create a pgTable that maps to a table in your DB
 
-export const UsersTable = pgTable("user", {
+export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   fullName: text("fullName").notNull(),
   email: text("email").notNull(),
@@ -20,7 +20,7 @@ export const UsersTable = pgTable("user", {
   ),
 });
 
-export const ProductTable = pgTable("product", {
+export const products = pgTable("products", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   imageUrl: text("imageUrl").notNull(),
@@ -31,8 +31,8 @@ export const ProductTable = pgTable("product", {
   ),
 });
 
-export type InsertUser = typeof UsersTable.$inferInsert;
-export type SelectUser = typeof UsersTable.$inferSelect;
+export type InsertUser = typeof users.$inferInsert;
+export type SelectUser = typeof users.$inferSelect;
 
-export type InsertPost = typeof ProductTable.$inferInsert;
-export type SelectPost = typeof ProductTable.$inferSelect;
+export type InsertPost = typeof products.$inferInsert;
+export type SelectPost = typeof products.$inferSelect;
