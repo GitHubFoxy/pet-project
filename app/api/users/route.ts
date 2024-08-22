@@ -10,5 +10,5 @@ export async function GET() {
 export async function POST(req: NextRequest) {
     const body = await req.json();
     const newUser = await db.insert(users).values(body);
-    return NextResponse.json(newUser);
+    return NextResponse.json({ message: "User created successfully" });
 }
