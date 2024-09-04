@@ -1,14 +1,19 @@
-import { db } from "@/drizzle/schema";
-import { users } from "@/drizzle/schema"; // Import your schema
+import { prisma } from "@/prisma/prisma-client";
 import { NextRequest, NextResponse } from "next/server";
 
+
 export async function GET() {
-    const allUsers = await db.select().from(users);
-    return NextResponse.json(allUsers);
+    const users = await prisma.user.findMany();
+
+    return NextResponse.json(users);
 }
 
 export async function POST(req: NextRequest) {
-    const body = await req.json();
-    const newUser = await db.insert(users).values(body);
-    return NextResponse.json({ message: "User created successfully" });
+    const data = await req.json();
+
+    const user = await prisma.user.create({
+        data,
+    })
+
+    return NextResponse.json(user);
 }
