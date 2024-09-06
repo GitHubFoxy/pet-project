@@ -40,7 +40,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
       </div>
       <div>
         <CheckboxFiltersGroup
-          title="Категории"
+          title="Ингредиенты"
           limit={4}
           defaultItems={[
             { text: "Суши", value: "1" },

@@ -11,6 +11,7 @@ export const GET = async (req: NextRequest) => {
                 mode: "insensitive",
             },
         },
+        take: 5
     })
 
     return NextResponse.json(products)

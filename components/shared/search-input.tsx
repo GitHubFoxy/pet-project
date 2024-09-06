@@ -1,10 +1,12 @@
 'use client'
 
 import { cn } from "@/lib/utils"
+import { Api } from "@/services/api-client"
+import { Product } from "@prisma/client"
 import { Search } from "lucide-react"
 import Link from "next/link"
-import { useRef, useState } from "react"
-import { useClickAway } from "react-use"
+import { useEffect, useRef, useState } from "react"
+import { useClickAway, useDebounce } from "react-use"
 
 interface Props{
     className?: string
@@ -13,11 +15,25 @@ interface Props{
 export const SearchInput: React.FC<Props> = ({className}) => {
 
     const [focused, setFocused] = useState(false)
+    const [searchQuery, setSearchQuery] = useState('')
+    const [products, setProducts] = useState<Product[]>([])
     const ref = useRef(null)
 
     useClickAway(ref, () => {
 
     })
+
+    useDebounce(() => {
+        Api.products.search(searchQuery).then((items) => setProducts(items))
+    },
+    150,
+    [searchQuery])
+
+    const onClickItem = () => {
+        setFocused(false)
+        setSearchQuery('')
+        setProducts([])
+    }
 
 
     return (
@@ -27,19 +43,29 @@ export const SearchInput: React.FC<Props> = ({className}) => {
         </div>
         <div ref={ref} className="flex rounded-2xl flex-1 justify-between relative h-11 z-30">
             <Search className="absolute top-1/2 translate-y-[-50%] left-3 h-5 text-gray-400 "/>
-            <input className="rounded-2xl outline-none w-full bg-gray-100 pl-11"
+            <input 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value )}
+            maxLength={25}
+            className="rounded-2xl outline-none w-full bg-gray-100 pl-11"
              placeholder="Что-же еще тут есть..."
              type="text" 
              onFocus={() => setFocused(true)}
              />
+      {products.length > 0 && (
         <div className={cn("absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30", focused && 'visible opacity-100 top-12')}>
-            <Link href={'/products/search/'} className="">
-                <div className="px-3 py-2  duration-200 hover:bg-zinc-500/20 cursor-pointer flex gap-2 items-center">
-                <img src="https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif" alt="pizza1img" width={48} />
-                Sushi1
-                </div>
-            </Link>
+            {products.map((product) => (
+                <Link href={`/product/${product.id}`} className="" onClick={onClickItem}>
+                    <div className="px-3 py-2  duration-200 hover:bg-zinc-500/20 cursor-pointer flex gap-2 items-center">
+                    <img src={`${product.imageUrl}`} 
+                    alt={`${product.name}`} 
+                    width={48} />
+                    {product.name}
+                    </div>
+                </Link>
+            ))}
         </div>
+    )} 
         </div>
         </>
     )
