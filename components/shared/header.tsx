@@ -4,6 +4,8 @@ import { ArrowRight, Pizza, ShoppingCart, User } from "lucide-react";
 import Container from "./container";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import Link from "next/link";
+import { SearchInput } from "./search-input";
 
 type Props = {
   className?: string;
@@ -14,19 +16,18 @@ const Header: React.FC<Props> = (className: Props) => {
     <>
       <header className={cn("border-b", className)}>
         <Container className="flex items-center justify-between py-8">
-          <div className="flex items-center gap-4">
-            <Pizza size={32} />
-            <div className="">
-              <h1 className="text-center">PET PROJECT</h1>
-              <p className="text-center opacity-50">NextJS</p>
+          <Link href='/'>
+            <div className="flex items-center gap-4">
+              <Pizza size={32} />
+              <div className="">
+                <h1 className="text-center">PET PROJECT</h1>
+                <p className="text-center opacity-50">NextJS</p>
+              </div>
             </div>
-          </div>
+          </Link>
 
-          <div>
-            <input
-              type="text"
-              className="rounded border border-[rgba(0,0,0,0.4)]"
-            />
+          <div className="mx-10 flex-1">
+            <SearchInput  />
           </div>
 
           <div className="flex items-center gap-2">
