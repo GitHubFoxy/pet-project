@@ -9,15 +9,15 @@ type Item = FilterCheckBoxProps;
 interface Props {
   title: string;
   items: Item[];
-  defaultItems: Item[];
+  defaultItems?: Item[];
   defaultValue?: string[];
   limit?: number;
-  loading?: boolean
+  loading?: boolean;
   searchInputPlaceholder?: string;
   onClickCheckbox?: (id: string) => void;
   className?: string;
-  selectedIds?: Set<string>
-  name?: string
+  selectedIds?: Set<string>;
+  name?: string;
 }
 
 const CheckboxFiltersGroup: React.FC<Props> = ({
@@ -31,27 +31,29 @@ const CheckboxFiltersGroup: React.FC<Props> = ({
   loading,
   className,
   selectedIds,
-  name
+  name,
 }) => {
   const [showAll, setShowAll] = React.useState(false);
   const [search, setSearch] = useState("");
 
   if (loading) {
-    return( 
-    <div className={className}>
-      <p className="mb-3 font-bold">{title}</p>
-      {...Array(limit)
-      .fill(0)
-      .map((_, idx) => <Skeleton key={idx} className="h-6 rounded-lg mb-4 bg-black/10"/>
-      )}
-    </div>
-  )}
+    return (
+      <div className={className}>
+        <p className="mb-3 font-bold">{title}</p>
+        {...Array(limit)
+          .fill(0)
+          .map((_, idx) => (
+            <Skeleton key={idx} className="mb-4 h-6 rounded-lg bg-black/10" />
+          ))}
+      </div>
+    );
+  }
 
   const list = showAll
     ? items.filter((item) =>
         item.text.toLowerCase().includes(search.toLowerCase()),
       )
-    : defaultItems.slice(0, limit);
+    : (defaultItems || items).slice(0, limit);
 
   return (
     <div className={className}>
