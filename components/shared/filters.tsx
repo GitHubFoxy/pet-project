@@ -1,15 +1,20 @@
+'use client'
 import React from "react";
 import { Title } from "./title";
 import FilterCheckBox from "./FilterCheckBox";
 import { Input } from "../ui/input";
 import { RangeSlider } from "../ui/range-slider";
 import CheckboxFiltersGroup from "./CheckboxFiltersGroup";
+import { useFilterIngredients } from "@/hooks/useFilterIngredients";
 
 type Props = {
   className?: string;
 };
 
 export const Filters: React.FC<Props> = ({ className }) => {
+  const { ingredients, loading} = useFilterIngredients()
+  const items = ingredients.map((ingredient) => ({value: String(ingredient.id), text: ingredient.name}))
+
   return (
     <div className="">
       <Title text="Фильтры" size="sm" className="mb-5 font-bold" />
@@ -42,33 +47,10 @@ export const Filters: React.FC<Props> = ({ className }) => {
         <CheckboxFiltersGroup
           title="Ингредиенты"
           limit={4}
-          defaultItems={[
-            { text: "Суши", value: "1" },
-            { text: "Роллы", value: "2" },
-            { text: "Сеты", value: "3" },
-            { text: "Роллы", value: "4" },
-            { text: "Сеты", value: "5" },
-            { text: "Роллы", value: "6" },
-          ]}
-          items={[
-            { text: "Суши", value: "1" },
-            { text: "Роллы", value: "2" },
-            { text: "Сеты", value: "3" },
-            { text: "Роллы", value: "4" },
-            { text: "Сеты", value: "5" },
-            { text: "Роллы", value: "6" },
-            { text: "Роллы", value: "2" },
-            { text: "Сеты", value: "3" },
-            { text: "Роллы", value: "4" },
-            { text: "Сеты", value: "5" },
-            { text: "Роллы", value: "6" },
-            { text: "Роллы", value: "2" },
-            { text: "Сеты", value: "3" },
-            { text: "Роллы", value: "4" },
-            { text: "Сеты", value: "5" },
-            { text: "Роллы", value: "6" },
-          ]}
+          defaultItems={items.slice(0,4)}
+          items={items}
           className="mt-5"
+          loading={loading}
         />
       </div>
     </div>

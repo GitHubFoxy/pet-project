@@ -23,8 +23,13 @@ export const SearchInput: React.FC<Props> = ({className}) => {
 
     })
 
-    useDebounce(() => {
-        Api.products.search(searchQuery).then((items) => setProducts(items))
+    useDebounce( async () => {
+        try {
+           const response = await Api.products.search(searchQuery)
+           setProducts(response)
+        } catch (error) {
+            console.log(error)
+        }
     },
     150,
     [searchQuery])
@@ -54,8 +59,8 @@ export const SearchInput: React.FC<Props> = ({className}) => {
              />
       {products.length > 0 && (
         <div className={cn("absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30", focused && 'visible opacity-100 top-12')}>
-            {products.map((product) => (
-                <Link href={`/product/${product.id}`} className="" onClick={onClickItem}>
+            {products.map((product, idx) => (
+                <Link href={`/product/${product.id}`} key={idx} className="" onClick={onClickItem}>
                     <div className="px-3 py-2  duration-200 hover:bg-zinc-500/20 cursor-pointer flex gap-2 items-center">
                     <img src={`${product.imageUrl}`} 
                     alt={`${product.name}`} 
