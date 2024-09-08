@@ -68,7 +68,7 @@ const CheckboxFiltersGroup: React.FC<Props> = ({
           />
         </div>
       )}
-      <div className="flex max-h-36 flex-col gap-4 overflow-auto pr-2 scrollbar-thin">
+      <div className="flex max-h-48 flex-col gap-4 overflow-auto pr-2 scrollbar-thin">
         {list.map((item, idx) => (
           <FilterCheckBox
             key={idx}

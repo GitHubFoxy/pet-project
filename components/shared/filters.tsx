@@ -6,20 +6,21 @@ import { RangeSlider } from "../ui/range-slider";
 import CheckboxFiltersGroup from "./CheckboxFiltersGroup";
 import { useFilterIngredients } from "@/hooks/useFilterIngredients";
 import { useSet } from "react-use";
+import qs from "qs";
+import { useRouter } from "next/navigation";
 
 type Props = {
   className?: string;
 };
 type PriceProps = {
-  priceFrom: number;
-  priceTo: number;
+  priceFrom?: number;
+  priceTo?: number;
 };
 
 export const Filters: React.FC<Props> = ({ className }) => {
-  const [prices, setPrice] = React.useState<PriceProps>({
-    priceFrom: 0,
-    priceTo: 1000,
-  });
+  const router = useRouter();
+
+  const [prices, setPrice] = React.useState<PriceProps>({});
 
   const updatePrice = (name: keyof PriceProps, value: number) => {
     setPrice({
@@ -30,16 +31,27 @@ export const Filters: React.FC<Props> = ({ className }) => {
 
   const { ingredients, loading, onAddId, selectedIds } = useFilterIngredients();
 
-  const [values, { toggle: toggleSizes }] = useSet(new Set<string>([]));
+  const [sizes, { toggle: toggleSizes }] = useSet(new Set<string>([]));
   const [pizzaType, { toggle: togglePizzaType }] = useSet(new Set<string>([]));
 
   const items = ingredients.map((ingredient) => ({
     value: String(ingredient.id),
     text: ingredient.name,
   }));
+
+  const filters = {
+    ...prices,
+    pizzaType: Array.from(pizzaType),
+    sizes: Array.from(sizes),
+    ingredients: Array.from(selectedIds),
+  };
+
   useEffect(() => {
-    console.log([prices, pizzaType, selectedIds, values]);
-  }, [prices, pizzaType, selectedIds, values]);
+    const queryString = qs.stringify(filters, {
+      arrayFormat: "comma",
+    });
+    router.push(`?${queryString}`);
+  }, [filters]);
 
   return (
     <div className="">
@@ -62,7 +74,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
         className="mb-5"
         title="Размеры"
         onClickCheckbox={toggleSizes}
-        selectedIds={values}
+        selectedIds={sizes}
         items={[
           { text: "20 см", value: "20" },
           { text: "30 см", value: "30" },
@@ -97,7 +109,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
           max={1000}
           step={5}
           className="bg-gray-200"
-          value={[prices.priceFrom, prices.priceTo]}
+          value={[prices.priceFrom || 0, prices.priceTo || 1000]}
           onValueChange={([from, to]) =>
             setPrice({ priceFrom: from, priceTo: to })
           }
