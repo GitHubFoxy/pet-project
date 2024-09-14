@@ -3,8 +3,21 @@ import { Filters } from "@/components/shared/filters";
 import ProductsGroup from "@/components/shared/products-group";
 import { Title } from "@/components/shared/title";
 import Topbar from "@/components/shared/Topbar";
+import { prisma } from "@/prisma/prisma-client";
 
-export default function Home() {
+export default async function Home() {
+  const categories = await prisma.category.findMany({
+    include: {
+      products: {
+        include: {
+          ingredients: true,
+          items: true,
+        },
+      },
+    },
+  });
+  console.log(categories);
+
   return (
     <>
       <Container className="mt-5">
@@ -243,12 +256,3 @@ export default function Home() {
     </>
   );
 }
-
-// <ProductCard
-//   id={0}
-//   imageUrl="https://images.unsplash.com/photo-1607247098731-5bf6416d2e8c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-//   name="Сашими"
-//   price={1600}
-//   className=""
-//   key={0}
-// />
