@@ -28,7 +28,7 @@ const ProductsGroup: React.FC<Props> = ({
   });
 
   React.useEffect(() => {
-    if (intersection?.isIntersecting) {
+    if (intersection && intersection?.isIntersecting) {
       setActiveCategoryId(categoryId);
     }
   }, [intersection?.isIntersecting]);
@@ -43,7 +43,7 @@ const ProductsGroup: React.FC<Props> = ({
               key={idx}
               id={product.id}
               name={product.name}
-              imageUrl={product.image}
+              imageUrl={product.imageUrl}
               price={product.items[0].price}
             />
           ))}

@@ -1,22 +1,29 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { useCategoryState } from "@/store/category";
-import React from "react";
+import { Category } from "@prisma/client";
 
 type Props = {
   className?: string;
+  items: Category[];
 };
 
-export const Categories: React.FC<Props> = ({ className }) => {
-  const categories = [
-    { id: 1, title: "Суши" },
-    { id: 2, title: "Роллы" },
-    { id: 3, title: "Сеты" },
-    { id: 4, title: "Напитки" },
-    { id: 5, title: "Десерты" },
-  ];
-
+export const Categories: React.FC<Props> = ({ items, className }) => {
   const categoryActiveId = useCategoryState((state) => state.activeId);
+
+  const handleCategoryClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (e.target instanceof HTMLAnchorElement) {
+      const innerText = e.target.innerText;
+      const scrollTarget: HTMLElement | null = document.querySelector(
+        `div#${innerText}`,
+      );
+      if (scrollTarget) {
+        const offsetTop = scrollTarget.offsetTop - 140;
+        window.scrollTo({ top: offsetTop, behavior: "smooth" });
+      }
+    }
+  };
 
   return (
     <div className="flex items-center justify-between">
@@ -26,7 +33,7 @@ export const Categories: React.FC<Props> = ({ className }) => {
           className,
         )}
       >
-        {categories.map(({ title, id }, idx) => {
+        {items.map(({ name: title, id }, idx) => {
           return (
             <a
               href={`#${title}`}
@@ -36,8 +43,9 @@ export const Categories: React.FC<Props> = ({ className }) => {
                 categoryActiveId === id &&
                   "shadow-grey/30 bg-white text-zinc-900 shadow-md",
               )}
+              onClick={handleCategoryClick}
             >
-              <button>{title}</button>
+              {title}
             </a>
           );
         })}

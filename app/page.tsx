@@ -16,14 +16,19 @@ export default async function Home() {
       },
     },
   });
-  console.log(categories);
 
   return (
     <>
       <Container className="mt-5">
-        <Title text="Все суши" size="lg" className="font-extrabold" />
+        <Title
+          text="Лучшая пицца в России"
+          size="lg"
+          className="font-extrabold"
+        />
       </Container>
-      <Topbar />
+      <Topbar
+        items={categories.filter((category) => category.products.length > 0)}
+      />
 
       <Container className="mt-5 pb-14">
         <div className="flex gap-[60px]">
@@ -33,222 +38,17 @@ export default async function Home() {
 
           <div className="flex-1">
             <div className="flex flex-col gap-16">
-              <ProductsGroup
-                categoryId={1}
-                products={[
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                ]}
-                title="Суши"
-              />
-              <ProductsGroup
-                categoryId={2}
-                products={[
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                ]}
-                title="Роллы"
-              />
-              <ProductsGroup
-                categoryId={3}
-                products={[
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                  {
-                    id: 1,
-                    name: "Сашими",
-                    image:
-                      "https://media.dodostatic.net/image/r:584x584/11EE796FA8B9B8E3828E5FDBDEF24A39.avif",
-                    items: [
-                      {
-                        price: 550,
-                      },
-                    ],
-                  },
-                ]}
-                title="Сеты"
-              />
+              {categories.map(
+                (category) =>
+                  category.products.length > 0 && (
+                    <ProductsGroup
+                      key={category.id}
+                      categoryId={category.id}
+                      title={category.name}
+                      products={category.products}
+                    />
+                  ),
+              )}
             </div>
           </div>
         </div>

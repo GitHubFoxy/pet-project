@@ -24,7 +24,7 @@ const ProductCard: React.FC<Props> = ({
     <div className={className}>
       <Link href={`/product/${id}`}>
         {/* Change images to sharp Images */}
-        <div className="flex h-[260px] justify-center rounded-lg bg-neutral-100 p-6">
+        <div className="flex h-[260px] justify-center rounded-xl bg-neutral-100 p-6">
           <img
             className="aspect-square"
             height={215}
