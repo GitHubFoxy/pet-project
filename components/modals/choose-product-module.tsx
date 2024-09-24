@@ -4,14 +4,17 @@ import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { useRouter } from "next/navigation";
 import { cn } from "../../lib/utils";
 import ChoosePizzaForm from "../shared/choose-pizza-form";
+import { IProduct } from "@/@types/product";
+import ChooseProductForm from "../shared/choose-product-form";
 
 interface Props {
-  product: Product;
+  product: IProduct;
   className?: string;
 }
 
 export default function ChooseProductModule({ className, product }: Props) {
   const router = useRouter();
+  const isPizza = Boolean(product.items[0].pizzaType);
 
   return (
     <Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
@@ -21,11 +24,15 @@ export default function ChooseProductModule({ className, product }: Props) {
           className,
         )}
       >
-        <ChoosePizzaForm
-          imageUrl={product.imageUrl}
-          name={product.name}
-          ingredients={[]}
-        />
+        {isPizza ? (
+          <ChoosePizzaForm
+            imageUrl={product.imageUrl}
+            name={product.name}
+            ingredients={product.ingredients}
+          />
+        ) : (
+          <ChooseProductForm imageUrl={product.imageUrl} name={product.name} />
+        )}
       </DialogContent>
     </Dialog>
   );
