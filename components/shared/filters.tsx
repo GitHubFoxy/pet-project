@@ -4,6 +4,7 @@ import { Input } from "../ui/input";
 import { RangeSlider } from "../ui/range-slider";
 import CheckboxFiltersGroup from "./CheckboxFiltersGroup";
 import { useIngredients, useFilters, useQueryFilters } from "@/hooks";
+import { useSearchParams } from "next/navigation";
 
 type Props = {
   className?: string;

@@ -2,6 +2,8 @@
 import { Product } from "@prisma/client";
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { useRouter } from "next/navigation";
+import { cn } from "../../lib/utils";
+import ChoosePizzaForm from "../shared/choose-pizza-form";
 
 interface Props {
   product: Product;
@@ -14,10 +16,16 @@ export default function ChooseProductModule({ className, product }: Props) {
   return (
     <Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
       <DialogContent
-        aria-describedby="xd"
-        className="min-h-[500px] w-[1060px] max-w-[1060px] overflow-hidden bg-white p-0"
+        className={cn(
+          "min-h-[500px] w-[1060px] max-w-[1060px] overflow-hidden bg-white p-0 md:rounded-xl",
+          className,
+        )}
       >
-        <DialogTitle>Выберите товар</DialogTitle>
+        <ChoosePizzaForm
+          imageUrl={product.imageUrl}
+          name={product.name}
+          ingredients={[]}
+        />
       </DialogContent>
     </Dialog>
   );
