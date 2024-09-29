@@ -1,5 +1,4 @@
 "use client";
-import { Product } from "@prisma/client";
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 import { useRouter } from "next/navigation";
 import { cn } from "../../lib/utils";

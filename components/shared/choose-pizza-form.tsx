@@ -2,20 +2,20 @@
 import { cn } from "@/lib/utils";
 import ProductImage from "./productImage";
 import { Title } from "./title";
-import { useState } from "react";
 import { Button } from "../ui/button";
 import GroupVariants from "./groupVariants";
 import {
   mapType,
-  PizzaSize,
   pizzaSizes,
-  PizzaType,
   pizzaTypes,
+  PizzaSize,
+  PizzaType,
 } from "./pizza-constant";
 import { Ingredient, ProductItem } from "@prisma/client";
 import IngredientComponent from "./ingredient-component";
-import { useSet } from "react-use";
-import { Pizza } from "lucide-react";
+import { DialogTitle } from "../ui/dialog";
+import calcPizzaPrices from "@/lib/calc-pizza-prices";
+import usePizzaOptions from "@/hooks/use-pizza-options";
 
 interface Props {
   imageUrl: string;
@@ -34,31 +34,28 @@ export default function ChoosePizzaForm({
   items,
   onClickAddCart,
 }: Props) {
-  const [size, setSize] = useState<PizzaSize>(30);
-  const [type, setType] = useState<PizzaType>(1);
+  const {
+    size,
+    type,
+    selectedIngredients,
+    addIngredient,
+    availablePizzaSizes,
+    setSize,
+    setType,
+  } = usePizzaOptions({ items });
 
   const textDetails = `${size} см, ${mapType[type]} пицца`;
-  const [selectedIngredients, { toggle: addIngredient }] = useSet(
-    new Set<number>([]),
-  );
-  const totalIngredientsPrice = ingredients
-    .filter((ingredient) => selectedIngredients.has(ingredient.id))
-    .reduce((acc, ingredient) => acc + ingredient.price, 0);
 
-  const PizzaPrice = items.find(
-    (item) => item.size == size && item.pizzaType == type,
-  )?.price;
-
-  const totalPrice = PizzaPrice! + totalIngredientsPrice;
+  const totalPrice = calcPizzaPrices({
+    items,
+    ingredients,
+    selectedIngredients,
+    size,
+    type,
+  });
 
   const handleClick = () => {
     // onClickAddCart!();
-    console.log({
-      size,
-      type,
-      ingredients: selectedIngredients,
-      totalPrice,
-    });
   };
 
   return (
@@ -66,10 +63,11 @@ export default function ChoosePizzaForm({
       <ProductImage src={imageUrl} alt={name} size={size} />
 
       <div className="w-[490px] rounded-xl bg-[#efeeee] p-7">
+        <DialogTitle></DialogTitle>
         <Title text={name} size="md" className="mb-1 font-extrabold" />
         <p className="text-gray-400">{textDetails}</p>
         <GroupVariants
-          items={pizzaSizes}
+          items={availablePizzaSizes}
           selectedValue={String(size)}
           onClick={(value) => setSize(Number(value) as PizzaSize)}
         />
@@ -97,7 +95,7 @@ export default function ChoosePizzaForm({
           onClick={handleClick}
           className="mt-10 h-[55px] w-full rounded-[18px] border bg-gray-300 px-10 text-base hover:bg-gray-400"
         >
-          Добавить в корзину за {PizzaPrice} рублей
+          Добавить в корзину за {totalPrice} рублей
         </Button>
       </div>
     </div>

@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 
-type Variant = {
+export type Variant = {
   name: string;
   value: string;
   disabled?: boolean;
@@ -28,9 +28,9 @@ export default function GroupVariants({
         "mt-2 flex select-none justify-between rounded-3xl bg-gray-300 p-2",
       )}
     >
-      {items.map(({ name, value, disabled }) => (
+      {items.map(({ name, value, disabled }, idx) => (
         <button
-          key={name}
+          key={idx}
           className={cn(
             "duration-400 flex h-[30px] flex-1 cursor-pointer items-center justify-center rounded-3xl py-3 text-sm transition-all",
             {
