@@ -4,18 +4,12 @@ import ProductImage from "./productImage";
 import { Title } from "./title";
 import { Button } from "../ui/button";
 import GroupVariants from "./groupVariants";
-import {
-  mapType,
-  pizzaSizes,
-  pizzaTypes,
-  PizzaSize,
-  PizzaType,
-} from "./pizza-constant";
+import { mapType, pizzaTypes, PizzaSize, PizzaType } from "./pizza-constant";
 import { Ingredient, ProductItem } from "@prisma/client";
 import IngredientComponent from "./ingredient-component";
 import { DialogTitle } from "../ui/dialog";
 import calcPizzaPrices from "@/lib/calc-pizza-prices";
-import usePizzaOptions from "@/hooks/use-pizza-options";
+import { usePizzaOptions } from "@/hooks/use-pizza-options";
 
 interface Props {
   imageUrl: string;
@@ -38,11 +32,11 @@ export default function ChoosePizzaForm({
     size,
     type,
     selectedIngredients,
-    addIngredient,
-    availablePizzaSizes,
+    availableSizes,
     setSize,
     setType,
-  } = usePizzaOptions({ items });
+    addIngredient,
+  } = usePizzaOptions(items);
 
   const textDetails = `${size} см, ${mapType[type]} пицца`;
 
@@ -67,7 +61,7 @@ export default function ChoosePizzaForm({
         <Title text={name} size="md" className="mb-1 font-extrabold" />
         <p className="text-gray-400">{textDetails}</p>
         <GroupVariants
-          items={availablePizzaSizes}
+          items={availableSizes}
           selectedValue={String(size)}
           onClick={(value) => setSize(Number(value) as PizzaSize)}
         />

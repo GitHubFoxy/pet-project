@@ -8,8 +8,8 @@ interface QueryFilters extends PriceProps {
     ingredients: string;
   }
   interface PriceProps {
-    priceFrom?: number;
-    priceTo?: number;
+    priceFrom: number ;
+    priceTo: number ;
   }  
 
   export interface Filters {
@@ -61,8 +61,8 @@ export const useFilters = (): ReturnProps => {
 
   // Price Filter
   const [prices, setPrices] = useState<PriceProps>({
-    priceFrom: Number(searchParams.get("priceFrom")) || undefined,
-    priceTo: Number(searchParams.get("priceTo")) || undefined,
+    priceFrom: Number(searchParams.get("priceFrom")) || 0,
+    priceTo: Number(searchParams.get("priceTo")) || 0,
   });
 
   const updatePrice = (name: keyof PriceProps, value: number) => {

@@ -4,6 +4,7 @@ import ProductImage from "./productImage";
 import { Title } from "./title";
 import { useState } from "react";
 import { Button } from "../ui/button";
+import { DialogTitle } from "@radix-ui/react-dialog";
 
 interface Props {
   imageUrl: string;
@@ -37,6 +38,7 @@ export default function ChooseProductForm({
       </div>
       <div className="w-[490px] rounded-xl bg-[#efeeee] p-7">
         <Title text={name} size="md" className="mb-1 font-extrabold" />
+        <DialogTitle></DialogTitle>
         <p className="text-gray-400">{textDetails}</p>
         <Button className="mt-10 h-[55px] w-full rounded-[18px] border bg-gray-300 px-10 text-base hover:bg-gray-400">
           Добавить в корзину за {totalprice} рублей
