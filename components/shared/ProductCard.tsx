@@ -4,6 +4,7 @@ import React from "react";
 import { Title } from "./title";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type Props = {
   id: number;
@@ -21,8 +22,11 @@ const ProductCard: React.FC<Props> = ({
   price,
 }) => {
   return (
-    <div className={className}>
-      <Link href={`/product/${id}`}>
+    <div className={cn(className)}>
+      <Link
+        href={`/product/${id}`}
+        className="flex h-full flex-col justify-between gap-2"
+      >
         {/* Change images to sharp Images */}
         <div className="flex h-[260px] justify-center rounded-xl bg-neutral-100 p-6">
           <img
