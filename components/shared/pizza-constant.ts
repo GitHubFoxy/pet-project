@@ -4,9 +4,9 @@ const mapSize = {
   40: "Большая",
 } as const ;
 
-const mapType = {
-  1: "Традиционное",
-  2: "Тонкое"
+export const mapType = {
+  1: "Традиционная",
+  2: "Тонкая"
 } as const;
 
 export const pizzaSizes = Object.entries(mapSize).map(([value, name]) => ({
