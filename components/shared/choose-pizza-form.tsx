@@ -7,7 +7,7 @@ import GroupVariants from "./groupVariants";
 import { mapType, pizzaTypes, PizzaSize, PizzaType } from "./pizza-constant";
 import { Ingredient, ProductItem } from "@prisma/client";
 import IngredientComponent from "./ingredient-component";
-import { DialogTitle } from "../ui/dialog";
+import { DialogDescription, DialogTitle } from "../ui/dialog";
 import calcPizzaPrices from "@/lib/calc-pizza-prices";
 import { usePizzaOptions } from "@/hooks/use-pizza-options";
 
@@ -57,7 +57,6 @@ export default function ChoosePizzaForm({
       <ProductImage src={imageUrl} alt={name} size={size} />
 
       <div className="w-[490px] rounded-xl bg-[#efeeee] p-7">
-        <DialogTitle></DialogTitle>
         <Title text={name} size="md" className="mb-1 font-extrabold" />
         <p className="text-gray-400">{textDetails}</p>
         <GroupVariants

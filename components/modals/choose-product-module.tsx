@@ -1,5 +1,11 @@
 "use client";
-import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 import { useRouter } from "next/navigation";
 import { cn } from "../../lib/utils";
 import ChoosePizzaForm from "../shared/choose-pizza-form";

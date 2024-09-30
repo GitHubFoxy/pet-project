@@ -4,7 +4,6 @@ import { Input } from "../ui/input";
 import { RangeSlider } from "../ui/range-slider";
 import CheckboxFiltersGroup from "./CheckboxFiltersGroup";
 import { useIngredients, useFilters, useQueryFilters } from "@/hooks";
-import { useSearchParams } from "next/navigation";
 
 type Props = {
   className?: string;
@@ -28,7 +27,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
 
   const resetPrices = () => {
     filters.setPrices("priceFrom", 0);
-    filters.setPrices("priceTo", 0);
+    filters.setPrices("priceTo", 1000);
   };
 
   return (
@@ -92,10 +91,7 @@ export const Filters: React.FC<Props> = ({ className }) => {
             max={1000}
             step={5}
             className="bg-gray-200"
-            value={[
-              filters.prices.priceFrom || 0,
-              filters.prices.priceTo || 1000,
-            ]}
+            value={[filters.prices.priceFrom, filters.prices.priceTo]}
             onValueChange={updatePrices}
           />
           <div className="flex justify-center rounded py-1 duration-200 hover:bg-gray-200">

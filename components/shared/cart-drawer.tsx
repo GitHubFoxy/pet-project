@@ -2,8 +2,10 @@ import { ArrowRight } from "lucide-react";
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from "../ui/sheet";
 import { Button } from "../ui/button";
@@ -23,7 +25,11 @@ export default function CartDrawer({
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent className="flex flex-col justify-between bg-[#F4F1EE] pb-0">
         <SheetHeader className={cn("flex-row gap-2")}>
-          В корзине <span className="font-bold">3 товара</span>
+          <SheetDescription>
+            {" "}
+            В корзине <span className="font-bold">3 товара</span>
+          </SheetDescription>
+          <SheetTitle></SheetTitle>
         </SheetHeader>
 
         <div className="-mx-6 mt-5 flex-1 overflow-auto">
