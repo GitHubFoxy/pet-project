@@ -1,12 +1,14 @@
 import { cn } from "@/lib/utils";
+import { Ingredient } from "@prisma/client";
+import { PizzaSize, PizzaType, pizzaTypes } from "../pizza-constant";
 
 interface Props {
+  className?: string;
   name: string;
   details: string;
-  className?: string;
 }
 
-export const CartItemInfo: React.FC<Props> = ({ name, details, className }) => {
+export const CartItemInfo: React.FC<Props> = ({ name, className, details }) => {
   return (
     <div>
       <div className={cn("flex items-center justify-between", className)}>

@@ -9,6 +9,8 @@ import {
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import CartDrawerItem from "./cart-drawer-item";
+import getCartItemsDetails from "@/lib/get-cart-items-details";
 
 export default function CartDrawer({
   children,
@@ -24,7 +26,21 @@ export default function CartDrawer({
           В корзине <span className="font-bold">3 товара</span>
         </SheetHeader>
 
-        {/* Items */}
+        <div className="-mx-6 mt-5 flex-1 overflow-auto">
+          <div className="mb-2">
+            <CartDrawerItem
+              details={getCartItemsDetails(1, 20, [
+                { name: "Картофель" },
+                { name: "Яйцо" },
+              ])}
+              id={1}
+              imageUrl="https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp"
+              name="Чоризо фреш"
+              price={419}
+              quantity={1}
+            />
+          </div>
+        </div>
 
         <SheetFooter className="-mx-6 block bg-white p-8">
           <div>

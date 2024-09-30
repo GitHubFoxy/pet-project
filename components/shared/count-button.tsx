@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 export interface CountButtonProps {
   value?: number;
   size?: "sm" | "lg";
-  onClick?: (type: "plus" | "minus") => void;
   className?: string;
+  onClick?: (type: "plus" | "minus") => void;
 }
 
 export const CountButton: React.FC<CountButtonProps> = ({
@@ -35,6 +35,7 @@ export const CountButton: React.FC<CountButtonProps> = ({
         onClick={() => onClick?.("plus")}
         size={size}
         type="plus"
+        disabled={value === 100}
       />
     </div>
   );
