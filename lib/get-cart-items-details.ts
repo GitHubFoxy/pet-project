@@ -4,18 +4,12 @@ import {
   PizzaType,
   pizzaTypes,
 } from "@/components/shared/pizza-constant";
-import { Ingredient } from "@prisma/client";
-
-interface Props {
-  pizzaType: PizzaType;
-  pizzaSize: PizzaSize;
-  ingredients: Ingredient[];
-}
+import { CartStateItem } from "./get-cart-details";
 
 export default function getCartItemsDetails(
   pizzaType: PizzaType,
   pizzaSize: PizzaSize,
-  ingredients: Ingredient[],
+  ingredients: CartStateItem["ingredients"],
 ) {
   const details = [];
   if (pizzaSize && pizzaType) {

@@ -1,3 +1,4 @@
+"use client";
 import { ArrowRight } from "lucide-react";
 import {
   Sheet,
@@ -13,13 +14,27 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import CartDrawerItem from "./cart-drawer-item";
 import getCartItemsDetails from "@/lib/get-cart-items-details";
+import { cartState } from "@/store/cart";
+import { useEffect } from "react";
+import { PizzaSize, PizzaType } from "./pizza-constant";
+import { getCartDetails } from "@/lib/get-cart-details";
+import { Api } from "@/services/api-client";
 
 export default function CartDrawer({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const totalAmount = 3;
+  const [totalAmount, items, fetchCartItems] = cartState((state) => [
+    state.totalAmount,
+    state.items,
+    state.fetchCartItems,
+  ]);
+
+  useEffect(() => {
+    fetchCartItems();
+  }, []);
+
   return (
     <Sheet>
       <SheetTrigger asChild>{children}</SheetTrigger>
@@ -27,24 +42,32 @@ export default function CartDrawer({
         <SheetHeader className={cn("flex-row gap-2")}>
           <SheetDescription>
             {" "}
-            В корзине <span className="font-bold">3 товара</span>
+            В корзине <span className="font-bold">{items.length} товара</span>
           </SheetDescription>
           <SheetTitle></SheetTitle>
         </SheetHeader>
 
         <div className="-mx-6 mt-5 flex-1 overflow-auto">
           <div className="mb-2">
-            <CartDrawerItem
-              details={getCartItemsDetails(1, 20, [
-                { name: "Картофель" },
-                { name: "Яйцо" },
-              ])}
-              id={1}
-              imageUrl="https://media.dodostatic.net/image/r:233x233/11EE7D61304FAF5A98A6958F2BB2D260.webp"
-              name="Чоризо фреш"
-              price={419}
-              quantity={1}
-            />
+            {items.map((i) => (
+              <CartDrawerItem
+                key={i.id}
+                details={
+                  i.pizzaSize && i.pizzaType
+                    ? getCartItemsDetails(
+                        i.pizzaType as PizzaType,
+                        i.pizzaSize as PizzaSize,
+                        i.ingredients,
+                      )
+                    : ""
+                }
+                id={1}
+                imageUrl={i.imageUrl}
+                name={i.name}
+                price={i.price}
+                quantity={i.quantity}
+              />
+            ))}
           </div>
         </div>
 
