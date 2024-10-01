@@ -39,3 +39,5 @@ export async function GET(req: NextRequest) {
     console.log(error);
   }
 }
+
+export async function POST(request: NextRequest) {}

@@ -17,23 +17,38 @@ import getCartItemsDetails from "@/lib/get-cart-items-details";
 import { cartState } from "@/store/cart";
 import { useEffect } from "react";
 import { PizzaSize, PizzaType } from "./pizza-constant";
-import { getCartDetails } from "@/lib/get-cart-details";
-import { Api } from "@/services/api-client";
 
 export default function CartDrawer({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [totalAmount, items, fetchCartItems] = cartState((state) => [
+  const [
+    totalAmount,
+    items,
+    fetchCartItems,
+    updateItemQuantity,
+    removeCartItem,
+  ] = cartState((state) => [
     state.totalAmount,
     state.items,
     state.fetchCartItems,
+    state.updateItemQuantity,
+    state.removeCartItem,
   ]);
 
   useEffect(() => {
     fetchCartItems();
   }, []);
+
+  const onClickCountButton = (
+    id: number,
+    quantity: number,
+    type: "plus" | "minus",
+  ) => {
+    const newQuantity = type === "plus" ? quantity + 1 : quantity - 1;
+    updateItemQuantity(id, newQuantity);
+  };
 
   return (
     <Sheet>
@@ -66,6 +81,8 @@ export default function CartDrawer({
                 name={i.name}
                 price={i.price}
                 quantity={i.quantity}
+                onClick={(type) => onClickCountButton(i.id, i.quantity, type)}
+                onClickDelete={() => removeCartItem(i.id)}
               />
             ))}
           </div>
