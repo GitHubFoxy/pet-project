@@ -1,5 +1,9 @@
+import { findOrCreateCart } from "@/lib/find-or-create-cart";
+import { updateCartTotalAmount } from "@/lib/server/update-cart-total-amount";
 import { prisma } from "@/prisma/prisma-client";
+import { CreateCartItemValues } from "@/services/dto/cart.dto";
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "node:crypto";
 
 export async function GET(req: NextRequest) {
   try {
@@ -40,4 +44,57 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {}
+export async function POST(req: NextRequest) {
+  try {
+    let token = req.cookies.get("cartToken")?.value;
+    let isNewToken = false;
+    if (!token) {
+      token = crypto.randomUUID();
+      isNewToken = true;
+    }
+
+    const userCart = await findOrCreateCart(token);
+    const data = (await req.json()) as CreateCartItemValues;
+
+    const findCartItem = await prisma.cartItem.findFirst({
+      where: {
+        cartId: userCart.id,
+        productItemId: data.productItemId,
+        ingredients: { every: { id: { in: data.ingredients } } },
+      },
+    });
+    if (findCartItem) {
+      await prisma.cartItem.update({
+        where: { id: findCartItem.id },
+        data: {
+          quantity: findCartItem.quantity + 1,
+        },
+      });
+      const updatedUserCart = await updateCartTotalAmount(token);
+      if (isNewToken) {
+        const response = NextResponse.json(updatedUserCart);
+        response.cookies.set("cartToken", token);
+        return response;
+      }
+      return NextResponse.json(updatedUserCart);
+    }
+
+    await prisma.cartItem.create({
+      data: {
+        cartId: userCart.id,
+        productItemId: data.productItemId,
+        quantity: 1,
+        ingredients: { connect: data.ingredients.map((id) => ({ id })) },
+      },
+    });
+
+    const updatedUserCart = await updateCartTotalAmount(token);
+    return NextResponse.json(updatedUserCart);
+  } catch (error) {
+    console.log("error: ", error);
+    return NextResponse.json(
+      { message: "Не удалось создать корзину" },
+      { status: 500 },
+    );
+  }
+}
