@@ -1,17 +1,32 @@
-import { User, ShoppingCart, ArrowRight } from "lucide-react";
+"use client";
+import { ShoppingCart, ArrowRight } from "lucide-react";
 import React from "react";
 import { Button } from "../ui/button";
 import CartDrawer from "./cart-drawer";
+import { cartState } from "@/store/cart";
+import { cn } from "@/lib/utils";
 
 export default function CartButton() {
+  const [total, loading, items] = cartState((state) => [
+    state.totalAmount,
+    state.loading,
+    state.items,
+  ]);
+
   return (
     <CartDrawer>
-      <Button className="group relative rounded-sm border">
-        <b>520 P</b>
+      <Button
+        loading={loading}
+        className={cn(
+          "group relative rounded-sm border",
+          loading && "w-[105px]",
+        )}
+      >
+        <b>{total} ₽</b>
         <span className="mx-3 h-full w-[1px] bg-black/30"></span>
         <div className="flex items-center gap-1 transition duration-300 group-hover:opacity-0">
           <ShoppingCart size={16} strokeWidth={2} />
-          <b>3</b>
+          <b>{items.length}</b>
         </div>
         <ArrowRight
           size={20}

@@ -1,7 +1,6 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Title } from "./title";
-import { useState } from "react";
 import { Button } from "../ui/button";
 
 interface Props {
@@ -11,6 +10,7 @@ interface Props {
   price: number;
   onClickAdd: VoidFunction;
   className?: string;
+  loading: boolean;
 }
 
 export default function ChooseProductForm({
@@ -19,6 +19,7 @@ export default function ChooseProductForm({
   name,
   items,
   price,
+  loading,
   onClickAdd,
 }: Props) {
   return (
@@ -33,7 +34,8 @@ export default function ChooseProductForm({
       <div className="flex w-[490px] flex-col justify-between rounded-xl bg-[#efeeee] p-7">
         <Title text={name} size="md" className="mb-1 font-extrabold" />
         <Button
-          onClick={onClickAdd}
+          loading={loading}
+          onClick={() => onClickAdd()}
           className="mt-10 h-[55px] w-full rounded-[18px] border px-10 text-base"
         >
           Добавить в корзину за {price} рублей

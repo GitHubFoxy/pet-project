@@ -6,6 +6,7 @@ import ChoosePizzaForm from "../shared/choose-pizza-form";
 import { IProduct } from "@/@types/product";
 import ChooseProductForm from "../shared/choose-product-form";
 import { cartState } from "../../store/cart";
+import toast from "react-hot-toast";
 
 interface Props {
   product: IProduct;
@@ -16,23 +17,27 @@ export default function ChooseProductModule({ className, product }: Props) {
   const router = useRouter();
   const firstItem = product.items[0];
   const isPizza = Boolean(firstItem.pizzaType);
-  const addCartItem = cartState((state) => state.addCartItem);
+  const [addCartItem, loading] = cartState((state) => [
+    state.addCartItem,
+    state.loading,
+  ]);
 
-  const onAddProduct = () => {
-    console.log(firstItem.id);
-    if (firstItem) {
-      addCartItem({
-        productItemId: firstItem.id,
+  async function onSubmit(productItemId?: number, ingredients?: number[]) {
+    try {
+      const itemId = productItemId ?? firstItem.id;
+
+      await addCartItem({
+        productItemId: itemId,
+        ingredients,
       });
+      router.back();
+      toast.success(`${product.name} в корзине!`);
+    } catch (error) {
+      console.error(error);
+      toast.error("Something went wrong");
     }
-  };
+  }
 
-  const onAddPizza = (productItemId: number, ingredients: number[]) => {
-    addCartItem({
-      productItemId,
-      ingredients,
-    });
-  };
   return (
     <Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
       <DialogContent
@@ -47,14 +52,16 @@ export default function ChooseProductModule({ className, product }: Props) {
             name={product.name}
             ingredients={product.ingredients}
             items={product.items}
-            onSubmit={onAddPizza}
+            onSubmit={onSubmit}
+            loading={loading}
           />
         ) : (
           <ChooseProductForm
             price={firstItem.price}
-            onClickAdd={onAddProduct}
+            onClickAdd={onSubmit}
             imageUrl={product.imageUrl}
             name={product.name}
+            loading={loading}
           />
         )}
       </DialogContent>
