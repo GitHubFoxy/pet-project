@@ -63,10 +63,9 @@ export default function CartDrawer({
         </SheetHeader>
 
         <div className="-mx-6 mt-5 flex-1 overflow-auto">
-          <div className="mb-2">
-            {items.map((i) => (
+          {items.map((i) => (
+            <div key={i.id} className="mb-2">
               <CartDrawerItem
-                key={i.id}
                 details={
                   i.pizzaSize && i.pizzaType
                     ? getCartItemsDetails(
@@ -84,8 +83,8 @@ export default function CartDrawer({
                 onClick={(type) => onClickCountButton(i.id, i.quantity, type)}
                 onClickDelete={() => removeCartItem(i.id)}
               />
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
 
         <SheetFooter className="-mx-6 block bg-white p-8">

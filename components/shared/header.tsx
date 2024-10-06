@@ -32,7 +32,7 @@ const Header: React.FC<Props> = (className: Props) => {
           </div>
 
           <div className="flex items-center gap-2">
-            <Button className="flex gap-2 rounded border hover:bg-neutral-300">
+            <Button className="hover flex gap-2 rounded border">
               <User /> Войти
             </Button>
 

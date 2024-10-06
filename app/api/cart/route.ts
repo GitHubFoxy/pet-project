@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
         cartId: userCart.id,
         productItemId: data.productItemId,
         quantity: 1,
-        ingredients: { connect: data.ingredients.map((id) => ({ id })) },
+        ingredients: { connect: data.ingredients?.map((id) => ({ id })) },
       },
     });
 

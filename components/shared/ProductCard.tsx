@@ -50,7 +50,7 @@ const ProductCard: React.FC<Props> = ({
           </span>
           <Button
             variant={"default"}
-            className="rounded text-base font-bold hover:bg-slate-100"
+            className="hover rounded text-base font-bold"
           >
             <Plus className="mr-1" size={20} />
             Добавить

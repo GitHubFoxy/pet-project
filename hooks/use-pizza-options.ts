@@ -1,9 +1,9 @@
-import React from 'react';
-import { useSet } from 'react-use';
-import { ProductItem } from '@prisma/client';
-import { PizzaSize, PizzaType } from '@/components/shared/pizza-constant';
-import { Variant } from '@/components/shared/groupVariants';
-import getAvailablePizzaSize from '@/lib/get-available-pizza-size';
+import React from "react";
+import { useSet } from "react-use";
+import { ProductItem } from "@prisma/client";
+import { PizzaSize, PizzaType } from "@/components/shared/pizza-constant";
+import { Variant } from "@/components/shared/groupVariants";
+import getAvailablePizzaSize from "@/lib/get-available-pizza-size";
 
 interface ReturnProps {
   size: PizzaSize;
@@ -19,11 +19,15 @@ interface ReturnProps {
 export const usePizzaOptions = (items: ProductItem[]): ReturnProps => {
   const [size, setSize] = React.useState<PizzaSize>(20);
   const [type, setType] = React.useState<PizzaType>(1);
-  const [selectedIngredients, { toggle: addIngredient }] = useSet(new Set<number>([]));
+  const [selectedIngredients, { toggle: addIngredient }] = useSet(
+    new Set<number>([]),
+  );
 
   const availableSizes = getAvailablePizzaSize({ type, items });
 
-  const currentItemId = items.find((item) => item.pizzaType === type && item.size === size)?.id;
+  const currentItemId = items.find(
+    (item) => item.pizzaType === type && item.size === size,
+  )?.id;
 
   React.useEffect(() => {
     const isAvailableSize = availableSizes?.find(
