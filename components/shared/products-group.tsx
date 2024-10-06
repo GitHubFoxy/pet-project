@@ -5,10 +5,11 @@ import { Title } from "./title";
 import { cn } from "@/lib/utils";
 import { useIntersection } from "react-use";
 import { useCategoryState } from "@/store/category";
+import { IProduct } from "@/@types/product";
 
 type Props = {
   title: string;
-  products: any[];
+  products: IProduct[];
   listClassName?: string;
   categoryId: number;
   className?: string;
@@ -24,7 +25,7 @@ const ProductsGroup: React.FC<Props> = ({
   const setActiveCategoryId = useCategoryState((state) => state.setActiveId);
   const intersectionRef = React.useRef(null);
   const intersection = useIntersection(intersectionRef, {
-    threshold: 0.5,
+    threshold: 0.7,
   });
 
   React.useEffect(() => {
@@ -45,6 +46,7 @@ const ProductsGroup: React.FC<Props> = ({
               name={product.name}
               imageUrl={product.imageUrl}
               price={product.items[0].price}
+              ingredients={product.ingredients}
             />
           ))}
       </div>

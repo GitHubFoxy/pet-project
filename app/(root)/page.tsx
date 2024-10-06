@@ -3,20 +3,15 @@ import { Filters } from "@/components/shared/filters";
 import ProductsGroup from "@/components/shared/products-group";
 import { Title } from "@/components/shared/title";
 import Topbar from "@/components/shared/Topbar";
-import { prisma } from "@/prisma/prisma-client";
+import { findPizzas, GetSearchParams } from "@/lib/find-pizzas";
 import { Suspense } from "react";
 
-export default async function Home() {
-  const categories = await prisma.category.findMany({
-    include: {
-      products: {
-        include: {
-          ingredients: true,
-          items: true,
-        },
-      },
-    },
-  });
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: GetSearchParams;
+}) {
+  const categories = await findPizzas(searchParams);
 
   return (
     <div>

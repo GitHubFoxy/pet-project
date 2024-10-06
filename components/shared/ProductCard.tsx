@@ -1,10 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { Title } from "./title";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Ingredient } from "@prisma/client";
 
 type Props = {
   id: number;
@@ -12,6 +12,7 @@ type Props = {
   price: number;
   imageUrl: string;
   className?: string;
+  ingredients: Ingredient[];
 };
 
 const ProductCard: React.FC<Props> = ({
@@ -20,6 +21,7 @@ const ProductCard: React.FC<Props> = ({
   id,
   name,
   price,
+  ingredients,
 }) => {
   return (
     <div className={cn(className)}>
@@ -40,8 +42,7 @@ const ProductCard: React.FC<Props> = ({
         <Title text={name} size="sm" className="mb-1 mt-3 font-bold" />
 
         <p className="text-sm text-gray-400">
-          Рис, Нори, Лосось, Тунец, Креветки, Угорь, Огурец, Масаго, Васаби,
-          Соевый соус
+          {ingredients?.map((ingredient) => ingredient.name).join(", ")}
         </p>
 
         <div className="mt-4 flex items-center justify-between">
@@ -50,7 +51,7 @@ const ProductCard: React.FC<Props> = ({
           </span>
           <Button
             variant={"default"}
-            className="hover rounded text-base font-bold"
+            className="hover rounded-3xl text-base font-bold"
           >
             <Plus className="mr-1" size={20} />
             Добавить
