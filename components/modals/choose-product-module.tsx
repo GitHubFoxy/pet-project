@@ -2,11 +2,8 @@
 import { Dialog, DialogContent } from "../ui/dialog";
 import { useRouter } from "next/navigation";
 import { cn } from "../../lib/utils";
-import ChoosePizzaForm from "../shared/choose-pizza-form";
 import { IProduct } from "@/@types/product";
-import ChooseProductForm from "../shared/choose-product-form";
-import { cartState } from "../../store/cart";
-import toast from "react-hot-toast";
+import { ProductForm } from "../shared/product-form";
 
 interface Props {
   product: IProduct;
@@ -15,28 +12,6 @@ interface Props {
 
 export default function ChooseProductModule({ className, product }: Props) {
   const router = useRouter();
-  const firstItem = product.items[0];
-  const isPizza = Boolean(firstItem.pizzaType);
-  const [addCartItem, loading] = cartState((state) => [
-    state.addCartItem,
-    state.loading,
-  ]);
-
-  async function onSubmit(productItemId?: number, ingredients?: number[]) {
-    try {
-      const itemId = productItemId ?? firstItem.id;
-
-      await addCartItem({
-        productItemId: itemId,
-        ingredients,
-      });
-      router.back();
-      toast.success(`${product.name} в корзине!`);
-    } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong");
-    }
-  }
 
   return (
     <Dialog open={Boolean(product)} onOpenChange={() => router.back()}>
@@ -46,24 +21,10 @@ export default function ChooseProductModule({ className, product }: Props) {
           className,
         )}
       >
-        {isPizza ? (
-          <ChoosePizzaForm
-            imageUrl={product.imageUrl}
-            name={product.name}
-            ingredients={product.ingredients}
-            items={product.items}
-            onSubmit={onSubmit}
-            loading={loading}
-          />
-        ) : (
-          <ChooseProductForm
-            price={firstItem.price}
-            onClickAdd={onSubmit}
-            imageUrl={product.imageUrl}
-            name={product.name}
-            loading={loading}
-          />
-        )}
+        <ProductForm
+          product={product}
+          closeModalAfterSubmit={() => router.back()}
+        />
       </DialogContent>
     </Dialog>
   );
